@@ -8,6 +8,10 @@ r<?php
 				$this->addUser();
 			} elseif ($action == 'deleteUsers') {
 				$this->deleteUser();
+			} elseif ($action == 'login') {
+				$this->login();
+			} elseif ($action == 'logout') {
+				$this->logout();
 			}
 		}
 
@@ -37,9 +41,34 @@ r<?php
 		public function deleteUser(){
 			$id = $_GET['uid'];
 			$user = new UserModel();
+			$file = $user->getDeleteAvatar($id);
 			$deleteUser = $user->deleteUser($id);
+			unlink('public/uploads/'.$file['avatar']);
 			header("Location: index.php?controller=users&action=listUsers");
-
 		}
+
+		public function login() {
+			if (isset($_POST['login'])){
+				$username = $_POST['username'];
+				$pass = md5($_POST['pass']);
+				$user = new UserModel();
+				$checkLogin	= $user->checkLogin($username, $pass);
+				if (!is_null($checkLogin)) {
+					//var_dump($checkLogin);exit();
+					$_SESSION['login'] = $checkLogin['username'];
+					//$_SESSION['role'] = $checkLogin['role'];
+					header("Location: index.php");
+				} else {
+					header("Location: views/users/login.php");
+					echo "<script>alert('sai username hoac pass word');</script>";
+				}
+			}
+		}
+		public function logout() { 
+			unset($_SESSION['login']);
+			session_unset();
+			header("Location: views/users/login.php");
+		}
+
 	}
 ?>

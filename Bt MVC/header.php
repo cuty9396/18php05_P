@@ -1,3 +1,6 @@
+<?php 
+  session_start();
+?>
 <body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
     <header class="main-header">
@@ -35,9 +38,9 @@
 
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <a href="index.php?controller=users&action=logout" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="public/img/doge.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs">Log out</span>
                 </a>
               </li>
               <!-- Control Sidebar Toggle Button -->
